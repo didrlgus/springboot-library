@@ -1,0 +1,35 @@
+version = '0.0.1-SNAPSHOT'
+
+ext['springCloudVersion'] = 'Hoxton.RELEASE'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'gabia.library.NoticeServiceApplication'
+    }
+}
+
+dependencies {
+    implementation project(':common')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7")
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
+    implementation('org.springframework.retry:spring-retry:1.2.2.RELEASE')
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.1")
+    testImplementation("junit:junit:4.13")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.7.1")
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

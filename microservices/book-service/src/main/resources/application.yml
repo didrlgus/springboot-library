@@ -1,0 +1,82 @@
+spring:
+  profiles:
+    active: common
+  application:
+    name: book-service
+
+server:
+  port: 8004
+
+kafka:
+  bootstrapServers: 127.0.0.1:9092
+  topic:
+    rent:
+      name: book-rent-topic
+    return:
+      name: book-return-topic
+    buying:
+      name: book-buying-topic
+    review:
+      update:
+        name: review-update-of-book-topic
+        result:
+          name: review-create-result-topic
+
+  consumer:
+    rent:
+      groupName: book-rent-consumer-group
+    return:
+      groupName: book-return-consumer-group
+    buying:
+      groupName: book-buying-consumer-group
+    review:
+      update:
+        groupName: review-update-of-book-consumer
+
+logging:
+  level:
+    org.hibernate.type: debug
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/
+
+ribbon:
+  eureka:
+    enabled: true
+
+security:
+  jwt:
+    uri: /auth/**
+    header: Token
+    prefix: Bearer
+    expiration: 86400 # 24*60*60
+    secret: JwtSecretKey
+
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:h2:~/book-service
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: H2
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /console
+
+---
+spring.profiles: release
+spring.profiles.include: real-db
+
+

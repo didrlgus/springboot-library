@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gabia Library</title>
+</head>
+<body>
+    <div>
+        <h2>안녕하세요. <span th:text="${identifier}"></span> 님.</h2>
+        <p th:text="${message}"></p>
+        <div>
+            <h3>책제목</h3>
+            <p th:text="${bookTitle}"></p>
+        </div>
+        <div>
+            <h3>저자</h3>
+            <p th:text="${bookAuthor}"></p>
+        </div>
+        <div>
+            <h3>도서반납시간</h3>
+            <p th:text="${bookReturnDateTime}"></p>
+        </div>
+    </div>
+</body>
+<br/>
+<footer>
+    <div>
+        <p>gabia corp.</p>
+    </div>
+</footer>
+</html>

@@ -1,0 +1,53 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: api-gateway
+
+zuul:
+  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
+  routes:
+    auth-service:
+      path: /auth/**
+      serviceId: auth-service
+      sensitiveHeaders: Cookie, Set-Cookie
+    user-service:
+      path: /users/**
+      serviceId: user-service
+    book-service:
+      path: /books/**
+      serviceId: book-service
+    review-service:
+      path: /reviews/**
+      serviceId: review-service
+    alert-service:
+      path: /alerts/**
+      serviceId: alert-service
+    notice-service:
+      path: /notices/**
+      serviceId: notice-service
+    book-request-service:
+      path: /request-list/**
+
+ribbon:
+  ReadTimeout: 60000
+  connection-timeout: 3000
+  eureka:
+    enabled: true
+
+eureka:
+  instance:
+    non-secure-port: ${server.port}
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/
+
+security:
+  jwt:
+    uri: /auth/**
+    header: Token
+    prefix: Bearer
+    expiration: 86400 # 24*60*60
+    secret: JwtSecretKey

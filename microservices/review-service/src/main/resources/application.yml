@@ -1,0 +1,76 @@
+spring:
+  profiles:
+    active: common
+  application:
+    name: review-service
+
+server:
+  port: 8005
+
+logging:
+  level:
+    org.hibernate.type: debug
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8000/eureka  # default address
+
+ribbon:
+  eureka:
+    enabled: true
+
+book-service:
+  ribbon:
+    MaxAutoRetries: 0
+    MaxAutoRetriesNextServer: 1
+
+kafka:
+  bootstrapServers: 127.0.0.1:9092
+  topic:
+    create:
+      name: review-create-topic
+      result:
+        name: review-create-result-topic
+    update:
+      name: review-update-of-book-topic
+
+  consumer:
+    create:
+      groupName: review-create-consumer-group
+      result:
+        groupName: review-create-result-consumer-group
+
+security:
+  jwt:
+    uri: /auth/**
+    header: Token
+    prefix: Bearer
+    expiration: 86400 # 24*60*60
+    secret: JwtSecretKey
+
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:h2:~/review-service
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: H2
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /console
+
+---
+spring.profiles: release
+spring.profiles.include: real-db
+

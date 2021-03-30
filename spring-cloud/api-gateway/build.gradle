@@ -1,0 +1,32 @@
+version = '0.0.1-SNAPSHOT'
+
+ext['springCloudVersion'] = 'Hoxton.RELEASE'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'gabia.library.ApigatewayApplication'
+    }
+}
+
+dependencies {
+    implementation project(':common')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-zuul')
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+    implementation('org.springframework.boot:spring-boot-starter-security')
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
